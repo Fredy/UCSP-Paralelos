@@ -10,7 +10,8 @@ int **matrixMult(int (&matA)[size][size], int (&matB)[size][size]) {
   for (int i = 0; i < size; i++)
     res[i] = new int[size];
 
-  int block_size = 64 / sizeof(int); // check cache line.
+  int block_size = 64 / sizeof(int); // Usally cache line is 64 bytes so 64 /
+                                     // sizeof(int) integers can be there
   int temp;
   for (int jj = 0; jj < size; jj += block_size) {
     for (int kk = 0; kk < size; kk += block_size) {
@@ -34,6 +35,7 @@ int main() {
   int matA[1000][1000], matB[1000][1000];
 
   // Generate random matrices
+  /*
   random_device seed;
   mt19937 rand(seed());
   uniform_int_distribution<int> dis(0, 10);
@@ -48,6 +50,20 @@ int main() {
       j = dis(rand);
     }
   }
+  */
+
+  for (auto &i : matA) {
+    for (int &j : i) {
+      j = 1;
+    }
+  }
+
+  for (auto &i : matB) {
+    for (int &j : i) {
+      j = 1;
+    }
+  }
+
   ///////////////////////////
   /*
     for (auto &i : matA) {
@@ -65,12 +81,12 @@ int main() {
       cout << endl;
     }
     */
-  cout << "-------" << endl;
+  // cout << "-------" << endl;
 
-  int **res;
-  auto time = mtime::mTime([&] { res = matrixMult(matA, matB); });
+  int **res = matrixMult(matA, matB);
+  // auto time = mtime::mTime([&] { res = matrixMult(matA, matB); });
 
-  cout << "Time: " << time / 1000.0 << '\n';
+  //  cout << "Time: " << time / 1000.0 << '\n';
 
   /*
   for (int i = 0; i < 3; i++) {
