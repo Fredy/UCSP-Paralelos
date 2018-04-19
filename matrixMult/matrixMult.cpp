@@ -21,8 +21,9 @@ int **matrixMult(int (&matA)[rows][same], int (&matB)[same][cols]) {
   return res;
 }
 
+  constexpr int size = 2000;
+  int matA[size][size], matB[size][size];
 int main() {
-  int matA[1000][1000], matB[1000][1000];
 
   /*
   // Generate random matrices
@@ -72,10 +73,9 @@ int main() {
     */
   // cout << "-------" << endl;
 
-  int **res = matrixMult(matA, matB);
-  // auto time = mtime::mTime([&] { res = matrixMult(matA, matB); });
-
-  // cout << "Time: " << time / 1000 << '\n';
+  int **res ;//= matrixMult(matA, matB);
+  auto time = mtime::mTime([&] { res = matrixMult(matA, matB); });
+  cout << "Time: " << time / 1000.0 << '\n';
 
   /*
   for (int i = 0; i < 3; i++) {

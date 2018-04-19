@@ -10,7 +10,8 @@ int **matrixMult(int (&matA)[size][size], int (&matB)[size][size]) {
   for (int i = 0; i < size; i++)
     res[i] = new int[size];
 
-  int block_size = 64 / sizeof(int); // Usally cache line is 64 bytes so 64 /
+  // 16 32 64 128 100 
+  int block_size = 64;//64 / sizeof(int); // Usally cache line is 64 bytes so 64 /
                                      // sizeof(int) integers can be there
   int temp;
   for (int jj = 0; jj < size; jj += block_size) {
@@ -31,8 +32,9 @@ int **matrixMult(int (&matA)[size][size], int (&matB)[size][size]) {
   return res;
 }
 
+  constexpr int size = 1000;
+  int matA[size][size], matB[size][size];
 int main() {
-  int matA[1000][1000], matB[1000][1000];
 
   // Generate random matrices
   /*
@@ -83,10 +85,11 @@ int main() {
     */
   // cout << "-------" << endl;
 
-  int **res = matrixMult(matA, matB);
-  // auto time = mtime::mTime([&] { res = matrixMult(matA, matB); });
+  int **res; //= matrixMult(matA, matB);
 
-  //  cout << "Time: " << time / 1000.0 << '\n';
+  auto time = mtime::mTime([&] { res = matrixMult(matA, matB); });
+
+  cout << "Time: " << time / 1000.0 << '\n';
 
   /*
   for (int i = 0; i < 3; i++) {
