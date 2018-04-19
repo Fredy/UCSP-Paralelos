@@ -34,10 +34,13 @@ int main(int argc, char *argv[]) {
   int *senddispls = nullptr;
   int *recvcounts = nullptr;
   int *recvdispls = nullptr;
+  double start, finish;
 
   MPI_Init(&argc, &argv);
   MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+  start = MPI_Wtime();
 
   if (0 == rank) {
     /*
@@ -60,8 +63,6 @@ int main(int argc, char *argv[]) {
     rows = 10000;
     matrix = createMatrix(rows, cols);
     vector = createVector(cols);
-
-    printf("vector");
 
     sendcounts = new int[numprocs];
     senddispls = new int[numprocs];
@@ -133,10 +134,13 @@ int main(int argc, char *argv[]) {
     delete[] recvdispls;
   }
 
+  finish = MPI_Wtime();
+  cout << "PROC: " << rank << "Elapsd time = " << finish - start
+       << " seconds.\n";
+
   MPI_Finalize();
 
   if (0 == rank) {
-    cout << "Done\n";
     /*
     printf("result: \n");
     for (int i = 0; i < rows; ++i)
