@@ -1,3 +1,4 @@
+#include <stdlib.h>
 __global__ void vecAddKernel(float *A, float *B, float *C, int n) {
   int i = blockDim.x * blockIdx.x + threadIdx.x;
   if (i < n)
